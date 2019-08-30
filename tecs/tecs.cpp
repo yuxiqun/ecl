@@ -54,9 +54,7 @@ static constexpr float DT_MAX = 1.0f;	///< max value of _dt allowed before a fil
  * inertial nav data is not available. It also calculates a true airspeed derivative
  * which is used by the airspeed complimentary filter.
  */
-void TECS::update_vehicle_state_estimates(float airspeed, const matrix::Dcmf &rotMat,
-		const matrix::Vector3f &accel_body, bool altitude_lock, bool in_air,
-		float altitude, bool vz_valid, float vz, float az)
+void TECS::update_vehicle_state_estimates(float airspeed, const matrix::Vector3f &accel_body, bool altitude_lock, bool in_air, float altitude, bool vz_valid, float vz, float az)
 {
 	// calculate the time lapsed since the last update
 	uint64_t now = ecl_absolute_time();
@@ -131,7 +129,7 @@ void TECS::update_vehicle_state_estimates(float airspeed, const matrix::Dcmf &ro
 	if (ISFINITE(airspeed) && airspeed_sensor_enabled()) {
 		// Assuming the vehicle is flying X axis forward, use the X axis measured acceleration
 		// compensated for gravity to estimate the rate of change of speed
-		float speed_deriv_raw = rotMat(2, 0) * CONSTANTS_ONE_G + accel_body(0);
+		float speed_deriv_raw = accel_body(0);
 
 		// Apply some noise filtering
 		_speed_derivative = 0.95f * _speed_derivative + 0.05f * speed_deriv_raw;
