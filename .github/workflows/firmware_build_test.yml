@@ -1,6 +1,6 @@
 name: Firmware Build Test
 
-on: [pull_request]
+on: [push]
 
 jobs:
   Firmware-build:
