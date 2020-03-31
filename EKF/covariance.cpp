@@ -246,6 +246,18 @@ void Ekf::predictCovariance()
 
 	dvxVar = dvyVar = dvzVar = sq(dt * accel_noise);
 
+	if (_imu_sample_delayed.delta_vel_clipping[0]) {
+		dvxVar = sq(dt * BADACC_BIAS_PNOISE);
+	}
+
+	if (_imu_sample_delayed.delta_vel_clipping[1]) {
+		dvyVar = sq(dt * BADACC_BIAS_PNOISE);
+	}
+
+	if (_imu_sample_delayed.delta_vel_clipping[2]) {
+		dvzVar = sq(dt * BADACC_BIAS_PNOISE);
+	}
+
 	// predict the covariance
 
 	// intermediate calculations
